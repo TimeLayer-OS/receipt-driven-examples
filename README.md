@@ -1,7 +1,9 @@
 # receipt-driven examples
 
+**English** · [Русский](README.ru.md)
+
 Small, copy-me examples of the **receipt-driven** (a.k.a. *logless*) pattern from
-[TimeLayer](https://timelayer.com).
+[TimeLayer](https://timelayer-os.com).
 
 ## The idea
 
