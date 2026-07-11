@@ -26,20 +26,23 @@ TimeLayer — can issue one alone). It verifies **offline**, with no network and
 server, using the open-source verifier:
 
 ```bash
-timelayer-verifier verify cert.tlcert bundle.tlbundle
-# -> VALID FINAL    (exit 0)  authentic and complete
-# -> UNVERIFIABLE   (exit 1)  refuse
+timelayer-verifier verify cert.tlcert bundle.tlbundle --expect <sha256-of-your-action>
+# -> VALID FINAL    (exit 0)  authentic, complete, and issued FOR THIS ACTION
+# -> UNVERIFIABLE   (exit 1)  refuse (invalid, incomplete, or attests something else)
 ```
 
 Nothing to keep growing, nothing to tamper with, nothing to trust us about — the proof
 travels with the action and anyone can re-check it.
 
-## The rule: fail-closed
+## The rule: fail-closed, bound to the action
 
-> No valid receipt, no action.
+> No valid receipt **for this exact action**, no action.
 
-Any doubt — verifier missing, non-zero exit, unexpected output — counts as "not valid"
-and the action does **not** run.
+A receipt that is valid *in itself* but was issued for a different action authorizes
+nothing — otherwise any one valid receipt would unlock everything (receipt transplant).
+That's why the gate hashes your action spec and passes the digest to the verifier via
+`--expect`. Any doubt — verifier missing, non-zero exit, unexpected output, digest
+mismatch — counts as "not valid" and the action does **not** run.
 
 ## Run the example
 
@@ -49,17 +52,24 @@ You need the open-source verifier (one download) and Rust.
 ./run.sh
 ```
 
-`run.sh` downloads the verifier for your OS, builds the example, then runs it twice: once
-against the bundled **valid** receipt (the action runs) and once against a **tampered**
-copy (the action is refused). The verification itself is fully offline.
+`run.sh` downloads the verifier for your OS — **pinned to an exact version and sha256**
+(an unpinned `latest` binary would mean your security boundary silently changes with every
+release) — builds the example, then runs three scenarios:
+
+1. the bundled valid receipt + the action it attests → the action runs;
+2. a **tampered** receipt → refused;
+3. the same valid receipt + a **different** action → refused (no receipt transplant).
+
+The verification itself is fully offline.
 
 ## What's here
 
 | Path | What |
 |------|------|
-| `rust/src/main.rs` | The template. `receipt_is_valid()` is the reusable gate — keep it; replace `do_the_real_work()` with your program's actual effect. |
-| `sample-receipt/`  | A real receipt pair (`cert.tlcert` + `bundle.tlbundle`) you can verify offline. |
-| `run.sh`           | Fetches the verifier and runs the valid + tampered cases. |
+| `rust/src/main.rs` | The template. `receipt_is_valid_for()` is the reusable gate — it binds the receipt to *your* action via `--expect`; replace `do_the_real_work()` with your program's actual effect. Keep the binding: a gate without `--expect` is not a gate. |
+| `sample-action/`   | The action spec the sample receipt attests (its sha256 is the receipt's subject). |
+| `sample-receipt/`  | A real receipt pair (`cert.tlcert` + `bundle.tlbundle`) bound to `sample-action/action.json`. |
+| `run.sh`           | Pins + digest-checks the verifier, runs the valid / tampered / transplant cases. |
 
 ## Where receipts come from
 

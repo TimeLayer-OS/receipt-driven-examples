@@ -1,0 +1,9 @@
+{
+  "schema": "tl-action/1",
+  "action_id": "demo_write_report",
+  "tool": "file-write",
+  "target": "out/report.txt",
+  "args": { "content": "quarterly numbers, signed off" },
+  "issued_at": "2026-07-11T17:30:00Z",
+  "nonce": "9c41f2b8d67a4e05"
+}
