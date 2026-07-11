@@ -5,6 +5,14 @@
 Small, copy-me examples of the **receipt-driven** (a.k.a. *logless*) pattern from
 [TimeLayer](https://timelayer-os.com).
 
+## Who this is for
+
+- **You want to see the pattern, not read about it**: 120 lines of Rust you can copy into
+  your project today. Run `./run.sh` and watch three scenarios — including a perfectly
+  valid receipt getting refused because it belongs to a *different* action.
+- **You're evaluating TimeLayer** and want the minimum honest demo: no SDK, no framework,
+  one binary verifier and one gate function.
+
 ## The idea
 
 The usual way to record that something happened is to **write a log line after you
