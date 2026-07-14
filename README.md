@@ -2,6 +2,8 @@
 
 **English** · [Русский](README.ru.md)
 
+[![receipt-verified](receipt-verified.svg)](https://github.com/TimeLayer-OS/timelayer-verifier/tree/main/audit/2026-07-14)
+
 Small, copy-me examples of the **receipt-driven** (a.k.a. *logless*) pattern from
 [TimeLayer](https://timelayer-os.com).
 

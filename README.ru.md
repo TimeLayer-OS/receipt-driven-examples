@@ -2,6 +2,8 @@
 
 [English](README.md) · **Русский**
 
+[![receipt-verified](receipt-verified.svg)](https://github.com/TimeLayer-OS/timelayer-verifier/tree/main/audit/2026-07-14)
+
 Маленькие примеры «скопируй меня» паттерна **на квитанциях** (он же *безлоговый*, logless) от
 [TimeLayer](https://timelayer-os.com).
 
